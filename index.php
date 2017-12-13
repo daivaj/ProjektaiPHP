@@ -128,7 +128,7 @@ for ($i = 0; $i < count($a); $i++) {
 $j = count($a) - 1;
 for ($i = 0; $i < count($a); $i++) {
 
-        $suma2 = $suma2 + $a[$i][$j];
+        $suma2 = $suma2 + $a[$i][$j-$i];
 }
 echo "1 istrizaines suma lygi: " . $suma1;
 echo '<br>';
