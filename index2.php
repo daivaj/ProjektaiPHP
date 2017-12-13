@@ -214,7 +214,6 @@ echo $y;
 echo '<br>';
 echo $z;
 
-
 ?>
 </body>
 </html>
