@@ -12,22 +12,30 @@
 
 <?php
 
-$array = array(-10, 0, 2, 9, -5);
-
-for ($j = 0; 0 < count($array); $j++){
-    $max = $array[0];
-
-    $index = 0;
-
-    for ($i = 0; $i < count($array); $i++) {
-        if ($array[$i] > $max){
-            $max = $array[$i];
-            $index = $i;
+function arrayOfDivisors($a)
+{
+    $divisors = array();
+    for ($i = 1; $i < $a; $i++) {
+        if ($a % $i == 0) {
+            $divisors [] = $i;
         }
     }
-    echo $max. " ";
-    array_splice($array, $index, 1);
+    return $divisors;
+}
 
+function isPerfect($i)
+{
+    $divisors = arrayOfDivisors($i);
+    if (array_sum($divisors) == $i) {
+        return true;
+    }
+}
+
+$i = 1;
+while ($i <= 1000) {
+    if (isPerfect($i))
+        echo "Skaicius " . $i . " yra tobulas. <br>";
+    $i++;
 }
 
 
