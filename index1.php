@@ -12,32 +12,20 @@
 
 <?php
 
-function arrayOfDivisors($a)
-{
-    $divisors = array();
-    for ($i = 1; $i < $a; $i++) {
-        if ($a % $i == 0) {
-            $divisors [] = $i;
-        }
-    }
-    return $divisors;
-}
+$a = ['Jonas',
+    'Petras',
+    'Antanas',
+    'Povilas'
+];
 
-function isPerfect($i)
-{
-    $divisors = arrayOfDivisors($i);
-    if (array_sum($divisors) == $i) {
-        return true;
+$pairs = [];
+foreach($a as $key => $value) {
+    foreach($a as $key2 => $value2) {
+        $pairs[] = [$value, $value2];
     }
 }
 
-$i = 1;
-while ($i <= 1000) {
-    if (isPerfect($i))
-        echo "Skaicius " . $i . " yra tobulas. <br>";
-    $i++;
-}
-
+var_dump($pairs);
 
 ?>
 </body>
