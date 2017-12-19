@@ -12,29 +12,20 @@
 
 <?php
 
-$a = array(5, 6, 10, 15);
-$b = array(8, 5, 3, 25);
+$a = ['Jonas',
+    'Petras',
+    'Antanas',
+    'Povilas'
+];
 
-function arrayAverage($a)
-{
-    $suma = 0;
-    for ($i = 0; $i < count($a); $i++) {
-        $suma += $a[$i];
-
+$pairs = [];
+foreach($a as $key => $value) {
+    foreach(array_slice($a, $key + 1) as $key2 => $value2) {
+        $pairs[] = [$value, $value2];
     }
-    return $suma / count($a);
 }
 
-$averageA = arrayAverage($a);
-$averageB = arrayAverage($b);
-
-echo "A masyvo skaiciu vidurkis yra " .$averageA. "<br>";
-
-echo "B masyvo skaiciu vidurkis yra " .$averageB. "<br>";
-
-$x = $averageA - $averageB;
-
-echo "Masyvu vidurkiu skirtumas yra " .$x. "<br>";
+var_dump($pairs);
 
 ?>
 
