@@ -12,20 +12,43 @@
 
 <?php
 
-$a = ['Jonas',
-    'Petras',
-    'Antanas',
-    'Povilas'
+$myArray = [
+    [1, 3, 4],
+    [2, 5],
+    [2 => 3, 5 => 8],
+    [1, 1, 5 => 1]
 ];
 
-$pairs = [];
-foreach($a as $key => $value) {
-    foreach($a as $key2 => $value2) {
-        $pairs[] = [$value, $value2];
+function sum(array $a)
+{
+    $sumArray = array();
+
+    foreach ($a as $k => $subArray) {
+        foreach ($subArray as $id => $value) {
+            @$sumArray[$id] += $value;
+        }
     }
+    return $sumArray;
 }
 
-var_dump($pairs);
+$x = sum($myArray);
+
+var_dump($x);
+
+function maximum($a)
+{
+    $max = -999999;
+    foreach ($a as $key => $value) {
+
+        if ($value > $max) {
+            $max = $value;
+        }
+    }
+    return $max;
+}
+
+echo "Didziausia suma yra " .maximum($x);
+
 
 ?>
 </body>
