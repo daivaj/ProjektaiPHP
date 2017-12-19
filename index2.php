@@ -19,11 +19,9 @@ $a = ['Jonas',
 ];
 
 $pairs = [];
-for ($i = 0; $i < count($a); $i++){
-    for ($j = 0; $j < count($a); $j++) {
-        if ($i != $j){
-            $pairs[] = [$a[$i], $a[$j]];
-        }
+foreach($a as $key => $value) {
+    foreach($a as $key2 => $value2) {
+        $pairs[] = [$value, $value2];
     }
 }
 
