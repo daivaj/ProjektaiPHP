@@ -12,44 +12,24 @@
 
 <?php
 
-$myArray = [
-    [1, 3, 4],
-    [2, 5],
-    [2 => 3, 5 => 8],
-    [1, 1, 5 => 1]
-];
+$mokiniai = require ('array.php');
 
-function sum(array $a)
-{
-    $sumArray = array();
+require ('functions.php');
 
-    foreach ($a as $k => $subArray) {
-        foreach ($subArray as $id => $value) {
-            @$sumArray[$id] += $value;
-        }
+$vidurkiai = [];
+
+$bestIndex = 0;
+
+foreach ($mokiniai as $key => $mokinys){
+    $vidurkiai[$key] = averageStudent($mokinys);
+    if ($vidurkiai[$bestIndex] < $vidurkiai[$key]){
+        $bestIndex = $key;
     }
-    return $sumArray;
 }
 
-$x = sum($myArray);
+var_dump($vidurkiai);
 
-var_dump($x);
-
-function maximum($a)
-{
-    $max = -999999;
-    foreach ($a as $key => $value) {
-
-        if ($value > $max) {
-            $max = $value;
-        }
-    }
-    return $max;
-}
-
-echo "Didziausia suma yra " .maximum($x);
-
-
+echo 'Geriausiai mokosi ' .$mokiniai[$bestIndex]['vardas']. '. Jo/jos vidurkis ' .$vidurkiai[$bestIndex];
 ?>
 </body>
 </html>
