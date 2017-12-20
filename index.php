@@ -12,20 +12,29 @@
 
 <?php
 
-$a = ['Jonas',
-    'Petras',
-    'Antanas',
-    'Povilas'
+$zmones = [
+    ['vardas' => 'Jonas', 'lytis' => 'V'],
+    ['vardas' => 'Ona', 'lytis' => 'M'],
+    ['vardas' => 'Petras', 'lytis' => 'V'],
+    ['vardas' => 'Marytė', 'lytis' => 'M'],
+    ['vardas' => 'Eglė', 'lytis' => 'M']
 ];
 
-$pairs = [];
-foreach($a as $key => $value) {
-    foreach(array_slice($a, $key + 1) as $key2 => $value2) {
-        $pairs[] = [$value, $value2];
+function pairs(array $a)
+{
+    $pairs = [];
+    foreach ($a as $key => $value) {
+        foreach (array_slice($a, $key + 1) as $key2 => $value2) {
+            if ($value['lytis'] != $value2['lytis']) {
+                $pairs[] = [$value, $value2];
+            }
+
+        }
     }
+    return $pairs;
 }
 
-var_dump($pairs);
+var_dump(pairs($zmones));
 
 ?>
 
