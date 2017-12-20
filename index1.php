@@ -12,22 +12,34 @@
 
 <?php
 
-$a = ['Jonas',
-    'Petras',
-    'Antanas',
-    'Povilas'
+$zmones = [
+    ['vardas' => 'Jonas', 'lytis' => 'V'],
+    ['vardas' => 'Ona', 'lytis' => 'M'],
+    ['vardas' => 'Petras', 'lytis' => 'V'],
+    ['vardas' => 'Marytė', 'lytis' => 'M'],
+    ['vardas' => 'Eglė', 'lytis' => 'M']
 ];
 
-$pairs = [];
-for ($i = 0; $i < count($a); $i++){
-    for ($j = 0; $j < count($a); $j++) {
-        if ($i != $j){
-            $pairs[] = [$a[$i], $a[$j]];
+function groups(array $a)
+{
+    $groups = [];
+    foreach ($a as $key => $value) {
+        for ($i = 0; $i < count($a); $i++) {
+            if (empty($groups[$i])) {
+                $groups[$i][] = $value;
+                break;
+            }
+            if (count($groups[$i]) < 2) {
+                if ($groups[$i][0]['lytis'] != $value['lytis'])
+                    $groups[$i][] = $value;
+                break;
+            }
         }
     }
+    return $groups;
 }
 
-var_dump($pairs);
+var_dump(groups($zmones));
 
 ?>
 </body>
