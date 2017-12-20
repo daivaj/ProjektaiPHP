@@ -24,7 +24,7 @@ function groups(array $a)
 {
     $groups = [];
     foreach ($a as $key => $value) {
-        for ($i = 0; $i < count($a); $i++) {
+        for ($i = 0; $i < count($groups) + 1; $i++) {
             if (empty($groups[$i])) {
                 $groups[$i][] = $value;
                 break;
