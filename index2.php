@@ -12,24 +12,25 @@
 
 <?php
 
-$mokiniai = require ('array.php');
+require_once ('mokiniai.php');
 
-require ('functions.php');
+require_once ('functions.php');
 
-$vidurkiai = [];
 
-$bestIndex = 0;
+$sarasas = mazejimas($mokiniai);
 
-foreach ($mokiniai as $key => $mokinys){
-    $vidurkiai[$key] = averageStudent($mokinys);
-    if ($vidurkiai[$bestIndex] < $vidurkiai[$key]){
-        $bestIndex = $key;
-    }
-}
 
-var_dump($vidurkiai);
 
-echo 'Geriausiai mokosi ' .$mokiniai[$bestIndex]['vardas']. '. Jo/jos vidurkis ' .$vidurkiai[$bestIndex];
 ?>
+<table>
+    <tr>
+        <th>vardas</th>
+        <th>pavarde</th>
+        <th>bendras vidurkis</th>
+    </tr>
+        <?php lentele($sarasas); ?>
+
+
+</table>
 </body>
 </html>

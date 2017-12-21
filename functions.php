@@ -1,15 +1,36 @@
 <?php
 
-function averageStudent($a)
-{
-    $suma = 0;
-    $count = 0;
-    foreach ($a['pazymiai'] as $dalykai) {
-        foreach ($dalykai as $key => $value) {
-            $suma += $value;
-            $count++;
-        }
+function mazejimas($a){
+    $vidurkiai = [];
+    $surikiuoti = [];
+
+    foreach ($a as $key => $mokinys){
+        $mokinys->vidurkis();
+        $vidurkiai[] = $mokinys;
     }
-    return round($suma / $count, 1);
+
+    for ($j = 0; 0 < count($vidurkiai); $j++){
+        $max = $vidurkiai[0]->trimVid;
+        $index = 0;
+        for ($i = 0; $i < count($vidurkiai); $i++) {
+            if ($vidurkiai[$i]->trimVid > $max){
+                $max = $vidurkiai[$i]->trimVid;
+                $index = $i;
+            }
+        }
+        $surikiuoti[] = $vidurkiai[$index];
+        array_splice($vidurkiai, $index, 1);
+    }
+    return $surikiuoti;
+}
+
+function lentele($mokiniai){
+    foreach ($mokiniai as $mokinioInfo) {
+        echo '<tr><td>' . $mokinioInfo->vardas. '</td>';
+        echo '<td>'.$mokinioInfo->pavarde. '</td>';
+
+        echo '<td>'.$mokinioInfo->trimVid. '</td></tr>';
+
+    }
 }
 
