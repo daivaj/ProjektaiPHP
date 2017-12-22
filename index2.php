@@ -19,6 +19,17 @@ require_once ('functions.php');
 
 $sarasas = mazejimas($mokiniai);
 
+$pilnameciai = [];
+
+foreach ($mokiniai as $key => $mokinys){
+    if ($mokinys->amzius() >= 18){
+        $pilnameciai[] = $mokinys;
+    }
+
+}
+
+
+
 
 
 ?>
@@ -26,9 +37,10 @@ $sarasas = mazejimas($mokiniai);
     <tr>
         <th>vardas</th>
         <th>pavarde</th>
+        <th>amzius</th>
         <th>bendras vidurkis</th>
     </tr>
-        <?php lentele($sarasas); ?>
+        <?php lentele($pilnameciai); ?>
 
 
 </table>

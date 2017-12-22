@@ -27,7 +27,8 @@ function mazejimas($a){
 function lentele($mokiniai){
     foreach ($mokiniai as $mokinioInfo) {
         echo '<tr><td>' . $mokinioInfo->vardas. '</td>';
-        echo '<td>'.$mokinioInfo->pavarde. '</td>';
+        echo '<td>' .$mokinioInfo->pavarde. '</td>';
+        echo '<td>' .$mokinioInfo->amzius. '</td>';
 
         echo '<td>'.$mokinioInfo->trimVid. '</td></tr>';
 
