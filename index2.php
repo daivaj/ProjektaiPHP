@@ -12,37 +12,16 @@
 
 <?php
 
-require_once ('mokiniai.php');
+require_once('auto.php');
 
 require_once ('functions.php');
 
+usort($auto, function ($p1, $p2){
+    return ($p1->getSpeed() < $p2->getSpeed());
+});
 
-$sarasas = mazejimas($mokiniai);
-
-$pilnameciai = [];
-
-foreach ($mokiniai as $key => $mokinys){
-    if ($mokinys->amzius() >= 18){
-        $pilnameciai[] = $mokinys;
-    }
-
-}
-
-
-
-
+var_dump($auto);
 
 ?>
-<table>
-    <tr>
-        <th>vardas</th>
-        <th>pavarde</th>
-        <th>amzius</th>
-        <th>bendras vidurkis</th>
-    </tr>
-        <?php lentele($pilnameciai); ?>
-
-
-</table>
 </body>
 </html>

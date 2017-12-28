@@ -1,7 +1,7 @@
 <?php
-require_once('Trimestras.php');
+require_once('Radar.php');
 
-class Mokinys extends Trimestras
+class Mokinys extends Radar
 {
 
     public $vardas;
