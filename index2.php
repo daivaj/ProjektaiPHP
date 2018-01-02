@@ -17,7 +17,7 @@ require_once('auto.php');
 
 require_once ('functions.php');
 
-if (!empty($_POST)){
+if (!empty($_POST) && !empty($_POST['dataLaikas']) && !empty($_POST['numeris']) && !empty($_POST['atstumas']) && !empty($_POST['laikas'])){
 
     $_SESSION['duomenys'][]=$_POST;
     echo '<script>window.location=window.location;</script>'; exit();
@@ -26,6 +26,12 @@ if (!empty($_POST)){
 if (!empty($_SESSION['duomenys'])){
     $auto=[];
     foreach ($_SESSION['duomenys'] as $value){
+        if (!empty($_POST) && $_POST['filtras']!=''){
+            if (!preg_match('/('.preg_quote($_POST['filtras'],'/').')/i',$value['numeris'])){
+                continue;
+            }
+        }
+
         $auto[] = new Radar($value['dataLaikas'], $value['numeris'], $value['atstumas'], $value['laikas']);
     }
 
@@ -33,6 +39,7 @@ if (!empty($_SESSION['duomenys'])){
         return ($p1->getSpeed() < $p2->getSpeed());
     });
 }
+
 
 
 ?>
@@ -45,6 +52,13 @@ if (!empty($_SESSION['duomenys'])){
         <input name="atstumas" placeholder="Nuvaziuotas atstumas (m)" type="number">
         <input name="laikas" placeholder="Sugaistas laikas (s)"type="number">
         <input type="submit" value="Registruoti">
+    </form>
+
+    <hr>
+
+    <form method="post">
+        <input name="filtras" placeholder="Įveskite filtro tekstą" type="text" value="<?php if (isset($_POST['filtras'])) echo $_POST['filtras'] ?>">
+        <input type="submit" value="Filtruoti">
     </form>
 
 </div>
