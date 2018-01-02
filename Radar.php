@@ -19,6 +19,10 @@ class Radar
         return $this->distance;
     }
 
+    public function getTime(){
+        return $this->time;
+    }
+
     public function autoSpeed(){
             $this->speed = round($this->distance / $this->time, 1);
             return $this->speed;

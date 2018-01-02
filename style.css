@@ -1,0 +1,45 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    text-align: center;
+}
+
+h1 {
+
+    font-size: 50px;
+    text-transform: capitalize;
+    padding-bottom: 30px;
+}
+
+div {
+    width: 250px;
+    margin: auto;
+}
+
+input {
+    display: table;
+    padding: 15px 55px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    border: 2px solid #38814f;
+}
+
+table{
+    margin: auto;
+}
+
+
+th{
+    border: 1px solid black;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+td{
+    border: 1px solid black;
+    color: black;
+    font-size: 12px;
+    padding: 10px;
+}
