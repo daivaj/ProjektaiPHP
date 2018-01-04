@@ -10,72 +10,74 @@
 
 <body>
 
-<?php
-session_start();
-
-require_once('auto.php');
-
-require_once ('functions.php');
-
-if (!empty($_POST) && !empty($_POST['dataLaikas']) && !empty($_POST['numeris']) && !empty($_POST['atstumas']) && !empty($_POST['laikas'])){
-
-    $_SESSION['duomenys'][]=$_POST;
-    echo '<script>window.location=window.location;</script>'; exit();
-}
-
-if (!empty($_SESSION['duomenys'])){
-    $auto=[];
-    foreach ($_SESSION['duomenys'] as $value){
-        if (!empty($_POST) && $_POST['filtras']!=''){
-            if (!preg_match('/('.preg_quote($_POST['filtras'],'/').')/i',$value['numeris'])){
-                continue;
-            }
-        }
-
-        $auto[] = new Radar($value['dataLaikas'], $value['numeris'], $value['atstumas'], $value['laikas']);
-    }
-
-    usort($auto, function ($p1, $p2){
-        return ($p1->getSpeed() < $p2->getSpeed());
-    });
-}
-
-
-
-?>
-
-<h1>Registracija</h1>
-<div>
-    <form method="post">
-        <input name="dataLaikas" placeholder="Data ir laikas" type="date, number">
-        <input name="numeris" placeholder="Automobilio numeris" type="text">
-        <input name="atstumas" placeholder="Nuvaziuotas atstumas (m)" type="number">
-        <input name="laikas" placeholder="Sugaistas laikas (s)"type="number">
-        <input type="submit" value="Registruoti">
-    </form>
-
-    <hr>
-
-    <form method="post">
-        <input name="filtras" placeholder="Įveskite filtro tekstą" type="text" value="<?php if (isset($_POST['filtras'])) echo $_POST['filtras'] ?>">
-        <input type="submit" value="Filtruoti">
-    </form>
-
-</div>
+<h1>Radaro duomenys</h1>
 <table>
     <tr>
-        <th>Registracijos data ir laikas</th>
         <th>Automobilio numeris</th>
-        <th>Nuvaziuotas atstumas m</th>
-        <th>Sugaištas laikas s</th>
-        <th>Greitis m/s</th>
+        <th>Registracijos data</th>
         <th>Greitis km/h</th>
     </tr>
-    <tr>
-        <?php lentele($auto); ?>
-    </tr>
+
+
+<?php
+$serverName = "localhost";
+$useName = "Auto";
+$password = "labaislaptas123";
+$dbName = "auto";
+
+$puslapis = @$_GET['puslapis'];
+
+if ($puslapis < 1){
+    $puslapis = 0;
+}
+
+$conn = new mysqli($serverName, $useName, $password, $dbName);
+
+if ($conn->connect_error){
+    die("connection failed ". $conn->connect_error);
+}
+
+$sql = "SELECT count(1) as viso FROM radars";
+$rezult = $conn->query($sql);
+$row = $rezult->fetch_assoc();
+$visoIrasu = $row['viso'];
+
+$sql = "SELECT date, number, distance, time, distance/time*3.6 AS speed FROM radars ORDER BY speed DESC, date DESC LIMIT ".(10*$puslapis).", 10";
+
+$rezult = $conn->query($sql);
+
+if ($rezult->num_rows > 0){
+    while ($row = $rezult->fetch_assoc()){
+        echo '<tr><td>' .$row['number']. '</td><td>' .$row['date']. '</td><td>' .$row['speed']. '</td></tr>';
+    }
+} else {
+    echo '0 rezultatu';
+}
+
+$conn->close();
+?>
 
 </table>
+
+<?php
+if ($puslapis > 0){
+echo '<a href="?puslapis='.($puslapis-1).'" >Atgal</a>';
+}
+
+$viso = ceil($visoIrasu/10);
+for ($i = 0; $i < $viso; $i++){
+    $stilius = '';
+    if ($i == $puslapis){
+        $stilius = 'active';
+    }
+    echo '<a class="'.$stilius.'" href="?puslapis=' .($i).'" >'.($i+1).'</a>';
+}
+
+if ($rezult->num_rows >= 10){
+echo '<a href="?puslapis=' .($puslapis+1).'" >Pirmyn</a>';
+}
+
+?>
 
 </body>
 </html>
