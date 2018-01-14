@@ -10,8 +10,9 @@ $date = $_POST['date'];
 $number = $_POST['number'];
 $distance = $_POST['distance'];
 $time = $_POST['time'];
+$driverid = $_POST['driverid'];
 $id = $_POST['id'];
 
-$sql = $conn->prepare('UPDATE radars set date = ?, number = ?, distance = ?, time = ? WHERE id = ?');
-$sql->bind_param('ssddi', $date, $number, $distance, $time, $id);
+$sql = $conn->prepare('UPDATE radars set date = ?, number = ?, distance = ?, time = ?, driverid = ? WHERE id = ?');
+$sql->bind_param('ssddii', $date, $number, $distance, $time, $driverid, $id);
 $sql->execute();

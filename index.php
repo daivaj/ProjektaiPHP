@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Duomenu baze</title>
+    <title>Vairuotojai ir automobiliai</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="reset.css">
@@ -15,7 +15,33 @@ require_once 'functions.php';
 
 $conn = connectDB();
 
+if (isset($_GET['delete'])) {
+    $sql = "DELETE FROM radars WHERE id = ". intval($_GET['delete']);
+    $conn->query($sql);
+}
+$row = [];
+if (isset($_GET['edit'])) {
+    $sql = "SELECT * FROM radars WHERE id = ". intval($_GET['edit']);
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    }
+}
+if (isset($_POST['save'])) {
+    if (intval($_POST['id']) > 0) {
+        echo "update";
+        require_once 'update.php';
+    } else {
+        require_once 'insert.php';
+        echo "insert";
+    }
+}
 ?>
+<h1>Pradzia</h1>
+<a href="vairuotojai.php">Vairuotojai</a>
+<a href="automobiliai.php">Automobiliai</a>
+
+
 
 <form method='get' action="?">
     <button name="button" value="auto" type="submit">Automobiliai</button>
@@ -27,17 +53,17 @@ $conn = connectDB();
 
 $puslapis = @$_GET['puslapis'];
 
-$ip = 3;
+$ip = 5;
 
-if ($puslapis < 1){
+if ($puslapis < 1) {
     $puslapis = 0;
 }
 
-if (isset($_GET['button']) && $_GET['button']=='auto' ){
+if (isset($_GET['button']) && $_GET['button'] == 'auto') {
     $sql = "SELECT count(*) as viso FROM radars GROUP BY `number`";
     $rezult = $conn->query($sql);
-$visoIrasu = $rezult->num_rows;
-    $sql = 'SELECT number, COUNT(*) AS kiekis, MAX(distance/time) AS maxgreitis FROM radars GROUP BY number ORDER BY maxgreitis DESC LIMIT '.($ip*$puslapis).', '.$ip;
+    $visoIrasu = $rezult->num_rows;
+    $sql = 'SELECT number, COUNT(*) AS kiekis, MAX(distance/time) AS maxgreitis FROM radars GROUP BY number ORDER BY maxgreitis DESC LIMIT ' . ($ip * $puslapis) . ', ' . $ip;
 
     $result = $conn->query($sql);
 
@@ -50,7 +76,7 @@ $visoIrasu = $rezult->num_rows;
                 <th>Maksimalus greitis</th>
             </tr>
 
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['number'] ?></td>
                     <td><?= $row['kiekis'] ?></td>
@@ -65,16 +91,16 @@ $visoIrasu = $rezult->num_rows;
     }
 }
 
-        if (isset($_GET['button']) && $_GET['button']=='year' ){
+if (isset($_GET['button']) && $_GET['button'] == 'year') {
     $sql = "SELECT count(1) as viso FROM radars GROUP BY YEAR(date)";
     $rezult = $conn->query($sql);
-            $visoIrasu = $rezult->num_rows;
+    $visoIrasu = $rezult->num_rows;
 
     $sql = 'SELECT date, COUNT(*) AS kiekis, 
 YEAR(date) AS metai, 
 MAX(distance/time) AS maxgreitis, 
 Min(distance/time) AS mingreitis, 
-AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai ORDER BY maxgreitis DESC LIMIT '.($ip*$puslapis).', '.$ip;
+AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai ORDER BY maxgreitis DESC LIMIT ' . ($ip * $puslapis) . ', ' . $ip;
 
     $result = $conn->query($sql);
 
@@ -89,7 +115,7 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai ORDER BY maxgreitis 
                 <th>Vidutinis greitis</th>
             </tr>
 
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['metai'] ?></td>
                     <td><?= $row['kiekis'] ?></td>
@@ -106,17 +132,17 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai ORDER BY maxgreitis 
     }
 }
 
-        if (isset($_GET['button']) && $_GET['button']=='month' ){
+if (isset($_GET['button']) && $_GET['button'] == 'month') {
     $sql = "SELECT count(1) as viso FROM radars GROUP BY YEAR(date), MONTH(date)";
     $rezult = $conn->query($sql);
-            $visoIrasu = $rezult->num_rows;
+    $visoIrasu = $rezult->num_rows;
 
     $sql = 'SELECT date, COUNT(*) AS kiekis, 
 YEAR(date) AS metai, 
 MONTH(date) AS menuo, 
 MAX(distance/time) AS maxgreitis, 
 Min(distance/time) AS mingreitis, 
-AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY metai, menuo LIMIT '.($ip*$puslapis).', '.$ip;
+AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY metai, menuo LIMIT ' . ($ip * $puslapis) . ', ' . $ip;
 
     $result = $conn->query($sql);
 
@@ -132,7 +158,7 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY meta
                 <th>Vidutinis greitis</th>
             </tr>
 
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['metai'] ?></td>
                     <td><?= $row['menuo'] ?></td>
@@ -152,12 +178,13 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY meta
 
 // išvedame automobilius
 
- if (!isset($_GET['button'])){
+if (!isset($_GET['button'])) {
     $sql = "SELECT count(1) as viso FROM radars";
-    $rezult = $conn->query($sql);
-     $visoIrasu = $rezult->num_rows;
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $visoIrasu = $row['viso'];
 
-    $sql = 'SELECT *, `distance`/`time`*3.6 as `speed` FROM radars ORDER BY number, date LIMIT '.($ip*$puslapis).', '.$ip;
+    $sql = 'SELECT *, `distance`/`time`*3.6 as `speed` FROM radars ORDER BY number, date LIMIT ' . ($ip * $puslapis) . ', ' . $ip;
 
     $result = $conn->query($sql);
 
@@ -173,7 +200,7 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY meta
                 <th>Greitis (km/h)</th>
             </tr>
 
-            <?php while($row = $result->fetch_assoc()): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['id'] ?></td>
                     <td><?= $row['number'] ?></td>
@@ -192,5 +219,6 @@ AVG(distance/time) AS vidgreitis FROM radars GROUP BY metai, menuo ORDER BY meta
 }
 
 ?>
+
 </body>
 </html>
