@@ -36,10 +36,12 @@
 
                 @if ($radar->drivers)
                 <td>{{$radar->drivers->name}}</td>
+                    @else
+                    <td></td>
                 @endif
 
                 @if (auth()->check())
-                <td> {{ auth()->user()->id }}</td>
+                    <td> {{ auth()->user()->id }}</td>
                 @endif
 
                 @if ($radar->trashed())

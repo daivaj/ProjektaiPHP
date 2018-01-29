@@ -13,7 +13,7 @@ class Driver extends Model
     protected $table = 'drivers';
 
     protected $primaryKey = 'driver_id';
-    protected $foreignKey = 'driverId';
+    protected $foreignKey = 'driver_id';
 
     protected $fillable = ['driver_id', 'name', 'city'];
     

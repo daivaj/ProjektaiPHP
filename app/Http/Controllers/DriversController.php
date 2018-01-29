@@ -85,7 +85,7 @@ class DriversController extends Controller
      */
     public function edit($id)
     {
-        Driver::where('driver_id', $id)->first();
+        $driver = Driver::where('driver_id', $id)->first();
 
         return view('drivers.edit', compact('driver'));
     }
@@ -116,6 +116,7 @@ class DriversController extends Controller
         }
 
         $driver = Driver::where('driver_id', $id)->first();
+
 
         $data = [
             'name' => $request->name,

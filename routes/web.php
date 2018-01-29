@@ -132,7 +132,7 @@ Route::middleware('auth')->group(function(){
     Route::post('drivers', 'DriversController@store')->name('drivers.store');
     Route::get('drivers/{drivers}', 'DriversController@show')->name('drivers.show');
     Route::get('drivers/{drivers}/edit', 'DriversController@edit')->name('drivers.edit');
-    Route::post('drivers/{drivers}', 'DriversController@update')->name('drivers.update');
+    Route::put('drivers/{drivers}', 'DriversController@update')->name('drivers.update');
     Route::delete('drivers/{drivers}', 'DriversController@destroy')->name('drivers.destroy');
     Route::post('drivers/{drivers}', 'DriversController@restore')->name('drivers.restore');
 

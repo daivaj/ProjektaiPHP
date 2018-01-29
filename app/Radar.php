@@ -10,6 +10,9 @@ class Radar extends Model
     use SoftDeletes;
     
     protected $table = 'radars';
+
+    protected $primaryKey = 'driver_id';
+    protected $foreignKey = 'driver_id';
     
     protected $fillable = ['date', 'number', 'distance', 'time', 'speed', 'deleted_at'];
 
