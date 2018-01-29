@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 
 use App\Radar;
+use App\Driver;
 
 class RadarsController extends Controller
 {
@@ -16,7 +18,10 @@ class RadarsController extends Controller
     public function index()
     {
 
-        $radars = Radar::orderby('number', 'desc')->paginate(5);
+        $radars = Radar::withTrashed()->orderby('number', 'desc')->paginate(5);
+
+
+        
 
         return view('radars.index', compact('radars'));
     }
@@ -39,12 +44,29 @@ class RadarsController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'number' => 'max:6',
+                'time' => 'required',
+                'distance' => 'required',
+
+            ]);
+
+        $validator->validate();
+
+        if ($validator->fails()) {
+            return redirect('radars/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $data = [
             'date' => $request->date,
             'number' => $request->number,
             'time' => $request->distance,
             'distance' => $request->time,
         ];
+        
         Radar::create($data);
 
         return redirect()->route('radars.index');
@@ -83,6 +105,22 @@ class RadarsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'number' => 'max:6',
+                'time' => 'required',
+                'distance' => 'required',
+
+            ]);
+
+        $validator->validate();
+
+        if ($validator->fails()) {
+            return redirect('radars/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $radar = Radar::find($id);
 
         $data = [

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
+use Validator;
 use Illuminate\Http\Request;
 
 use App\Driver;
+
+use App\Radar;
 
 class DriversController extends Controller
 {
@@ -16,8 +18,8 @@ class DriversController extends Controller
      */
     public function index()
     {
-        $drivers = Driver::paginate(5);
-
+        $drivers = Driver::withTrashed()->orderby('name', 'desc')->paginate(5);
+//        $drivers = Driver::
         return view('drivers.index', compact('drivers'));
     }
 
@@ -39,6 +41,22 @@ class DriversController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required',
+                'city' => 'required',
+
+            ]);
+
+        $validator->validate();
+
+        if ($validator->fails()) {
+            return redirect('drivers/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
         $data = [
             'name' => $request->name,
             'city' => $request->city,
@@ -67,9 +85,9 @@ class DriversController extends Controller
      */
     public function edit($id)
     {
-        $driver = Driver::where('driver_id', $id)->first();
+        Driver::where('driver_id', $id)->first();
 
-        return view('drivers.edit', compact('drivers'));
+        return view('drivers.edit', compact('driver'));
     }
 
     /**
@@ -81,6 +99,22 @@ class DriversController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required',
+                'city' => 'required',
+
+            ]);
+
+        $validator->validate();
+
+        if ($validator->fails()) {
+            return redirect('drivers/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $driver = Driver::where('driver_id', $id)->first();
 
         $data = [
@@ -110,7 +144,7 @@ class DriversController extends Controller
     public function restore($id)
     {
         Driver::onlyTrashed()->where('driver_id', $id)->restore();
-
+     
         return redirect()->route('drivers.index');
 
     }

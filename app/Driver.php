@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Driver extends Model
 {
@@ -10,5 +12,18 @@ class Driver extends Model
 
     protected $table = 'drivers';
 
-    protected $fillable = ['name', 'city', 'deleted_at'];
+    protected $primaryKey = 'driver_id';
+    protected $foreignKey = 'driverId';
+
+    protected $fillable = ['driver_id', 'name', 'city'];
+    
+    public function radars()
+    {
+        return $this->hasMany(Radar::class, 'driver_id', 'driver_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
 }

@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class, 'driver_id', 'driver_id');
+    }
+
+    public function radars()
+    {
+        return $this->hasMany(Radar::class, 'id', 'id');
+    }
+
 }
