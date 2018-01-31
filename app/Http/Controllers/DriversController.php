@@ -161,5 +161,4 @@ class DriversController extends Controller
         return redirect()->route('drivers.index');
 
     }
-
 }
