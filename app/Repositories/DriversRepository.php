@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Radar;
+use App\Driver;
 
-class RadarsRepository
+class DriversRepository
 {
 
     protected $entity;
 
-    public function __construct(Radar $entity)
+    public function __construct(Driver $entity)
     {
         $this->entity = $entity;
     }
@@ -18,7 +18,7 @@ class RadarsRepository
     {
         return $this->entity
             ->withTrashed()
-            ->orderby('number', 'desc')
+            ->orderby('name', 'desc')
             ->paginate($pageSize);
     }
 
@@ -29,7 +29,7 @@ class RadarsRepository
 
     public function findById(int $id)
     {
-        return $this->entity->find($id);
+        return $this->entity->find($id)->first();
     }
 
     public function update(int $id, array $data)
@@ -37,6 +37,7 @@ class RadarsRepository
         $radar = $this->findById($id);
 
         return $radar->update($data);
+
     }
 
     public function delete(int $id)

@@ -11,10 +11,10 @@ class Radar extends Model
     
     protected $table = 'radars';
 
-    protected $primaryKey = 'driver_id';
-    protected $foreignKey = 'driver_id';
+    protected $primaryKey = 'id';
+    protected $foreignKey = 'id';
     
-    protected $fillable = ['date', 'number', 'distance', 'time', 'speed', 'deleted_at'];
+    protected $fillable = ['date', 'number', 'distance', 'time', 'speed', 'deleted_at', 'driver_id'];
 
     public function drivers()
     {

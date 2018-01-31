@@ -12,6 +12,11 @@
             <input value="{{old('time')}}"type="string" name="time" placeholder="Iveskite laika">
             <input value="{{old('distance')}}"type="string" name="distance" placeholder="Iveskite atstuma">
             <div class="form-group">
+                <label form="">Vairuotojai</label>
+                {{Form::select('drivers[]', $drivers, null, ['class' => 'input-sm'])}}
+            </div>
+
+            <div class="form-group">
 
                 <input type="submit" value="Pridėti">
 

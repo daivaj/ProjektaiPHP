@@ -160,3 +160,14 @@ Route::middleware('multiLang')->group(function(){
 });
 
 Route::get('language/switch/{language}', 'LanguageController@switch')->name('language.switch');
+
+Route::get('/', function (){
+
+    $drivers = [];
+
+    foreach (Driver::all() as $driver):
+        $drivers[$driver->dirver_id] = $driver->name;
+    endforeach;
+
+    return View::make('index')->with('drivers', $drivers);
+});

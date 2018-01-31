@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DriversRepository;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,20 @@ class DriversController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $driverRepository;
+
+    public function __construct(DriversRepository $driverRepository)
+    {
+        $this->driverRepository = $driverRepository;
+    }
+
     public function index()
     {
-       app()->setLocale('lt');
+//       app()->setLocale('lt');
 
-        $drivers = Driver::withTrashed()->orderby('name', 'desc')->paginate(5);
-//        $drivers = Driver::
+        $drivers = $this->driverRepository->getAllWithTrashed(8);
+        
         return view('drivers.index', compact('drivers'));
     }
 
@@ -63,7 +72,8 @@ class DriversController extends Controller
             'name' => $request->name,
             'city' => $request->city,
         ];
-        Driver::create($data);
+
+        $this->driverRepository->create($data);
 
         return redirect()->route('drivers.index');
     }
@@ -87,7 +97,7 @@ class DriversController extends Controller
      */
     public function edit($id)
     {
-        $driver = Driver::where('driver_id', $id)->first();
+        $driver = $this->driverRepository->findById($id);
 
         return view('drivers.edit', compact('driver'));
     }
@@ -125,7 +135,7 @@ class DriversController extends Controller
             'city' => $request->city,
         ];
 
-             $driver->update($data);
+             $this->driverRepository->update($id, $data);
 
         return redirect()->route('drivers.index');
     }
@@ -139,14 +149,14 @@ class DriversController extends Controller
     public function destroy($id)
     {
 
-        Driver::where('driver_id', $id)->delete();
+        $this->driverRepository->delete($id);
 
         return redirect()->route('drivers.index');
     }
 
     public function restore($id)
     {
-        Driver::onlyTrashed()->where('driver_id', $id)->restore();
+        $this->driverRepository->restore($id);
      
         return redirect()->route('drivers.index');
 

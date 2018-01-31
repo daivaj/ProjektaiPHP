@@ -19,17 +19,17 @@ class RadarsController extends Controller
    
    protected $radarRepository;
    
-   public function __construct(RadarsRepository $radarsRepository)
+   public function __construct(RadarsRepository $radarRepository)
    {
-       $this->radarRepository = $radarsRepository;
+       $this->radarRepository = $radarRepository;
    }
 
     public function index()
     {
-        app()->setLocale('lt');
+//        app()->setLocale('lt');
         
         $radars = $this->radarRepository->getAllWithTrashed(8);
-            
+
 
         return view('radars.index', compact('radars'));
     }
@@ -41,7 +41,13 @@ class RadarsController extends Controller
      */
     public function create()
     {
-        return view('radars.create');
+        $drivers = [];
+
+        foreach (Driver::all() as $driver):
+            $drivers[$driver->driver_id] = $driver->name;
+        endforeach;
+
+        return view('radars.create', compact('drivers'));
     }
 
     /**
@@ -99,9 +105,15 @@ class RadarsController extends Controller
      */
     public function edit($id)
     {
-        $radar = $this->radarRepository->find($id);
+        $radar = $this->radarRepository->findById($id);
 
-        return view('radars.edit', compact('radar'));
+        $drivers = [];
+
+        foreach (Driver::all() as $driver):
+            $drivers[$driver->driver_id] = $driver->name;
+        endforeach;
+       
+        return view('radars.edit', compact('radar', 'drivers'));
     }
 
     /**
@@ -134,11 +146,12 @@ class RadarsController extends Controller
             'number' => $request->number,
             'time' => $request->distance,
             'distance' => $request->time,
+            'driver_id' => $request->driver_id,
         ];
 
-        $this->radarRepository->find($id)->update($data);
+        $this->radarRepository->update($id, $data);
 
-        return redirect()->route('radars.index');
+        return redirect()->route('radars.index', compact('radar', 'drivers'));
 
     }
 
@@ -151,7 +164,7 @@ class RadarsController extends Controller
     public function destroy($id)
     {
 
-        $this->radarRepository->find($id)->delete();
+        $this->radarRepository->delete($id);
 
         return redirect()->route('radars.index');
     }
@@ -159,7 +172,7 @@ class RadarsController extends Controller
     public function restore($id)
     {
         
-        $this->radarRepository->onlyTrashed()->find($id)->restore();
+        $this->radarRepository->restore($id);
 
         return redirect()->route('radars.index');
 

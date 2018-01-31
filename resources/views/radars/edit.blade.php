@@ -13,6 +13,12 @@
             <input type="string" name="number" value="{{ $radar->number }}">
             <input type="string" name="time" value="{{ $radar->time }}">
             <input type="string" name="distance" value="{{ $radar->distance }}">
+
+            <div class="form-group">
+                <label form="">Vairuotojai</label>
+                {{ Form::select( 'driver_id', $drivers, null, ['class' => 'input-sm']) }}
+            </div>
+
             <input type="submit" value="Atnaujinti">
 
         </form>
