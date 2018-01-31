@@ -27,4 +27,12 @@ class HomeController extends Controller
 
         return view('home');
     }
+
+    public function destroy()
+    {
+
+        User::find($id)->delete();
+
+        return redirect()->route('home');
+    }
 }

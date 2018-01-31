@@ -2,21 +2,7 @@
 
 @section('content')
 
-    @if(count($errors))
-        <div class="form-group">
-            <div class="alert alert-danger">
-
-                <ul>
-
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-
-                    @endforeach
-                </ul>
-            </div>
-
-        </div>
-    @endif
+    @include('layouts.errors')
 
     <div style="width: 500px;">
         <form action="{{route('radars.update', ['radar' => $radar->id]) }}" method="POST">

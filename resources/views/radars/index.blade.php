@@ -18,12 +18,12 @@
         </div>
     @endif
 
-    <table  class="table table-bordered" style="border: 3px solid">
+    <table  class="table table-striped table-dark" style="border: 3px solid">
         <tr>
-            <td>Data</td>
-            <td>Numeris</td>
-            <td>Greitis</td>
-            <td>Vairuotojas</td>
+            <td>{{__('Date')}}</td>
+            <td>{{__('Number')}}</td>
+            <td>{{__('Speed')}}</td>
+            <td>{{__('Drivers')}}</td>
             <td>Duomenis sukure</td>
             <td>Veiksmai</td>
 

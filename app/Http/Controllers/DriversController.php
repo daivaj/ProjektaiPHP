@@ -18,6 +18,8 @@ class DriversController extends Controller
      */
     public function index()
     {
+       app()->setLocale('lt');
+
         $drivers = Driver::withTrashed()->orderby('name', 'desc')->paginate(5);
 //        $drivers = Driver::
         return view('drivers.index', compact('drivers'));

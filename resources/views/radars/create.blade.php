@@ -1,23 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-
-    @if(count($errors))
-        <div class="form-group">
-            <div class="alert alert-danger">
-
-                <ul>
-
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-
-                    @endforeach
-                </ul>
-
-            </div>
-
-        </div>
-    @endif
+    @include('layouts.errors')
 
     <div>
         <form action="{{ route('radars.store') }}" method="POST">
@@ -33,7 +17,7 @@
 
             </div>
 
-{{--            @include('layouts.errors')--}}
+
         </form>
     </div>
 

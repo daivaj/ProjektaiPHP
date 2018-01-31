@@ -20,9 +20,9 @@
 
     <table style="border: 3px solid">
         <tr>
-            <td>Vardas</td>
-            <td>Adresas</td>
-            <td>Duomenis ivede</td>
+            <td>{{__('Name')}}</td>
+            <td>{{__('City')}}</td>
+            <td>{{__('Created_by')}}</td>
             <td>Veiksmai</td>
 
         </tr>

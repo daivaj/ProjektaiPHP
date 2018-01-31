@@ -24,6 +24,7 @@
 
         <input type="string" name="name" value="{{ $driver->name }}">
         <input type="string" name="city" value="{{ $driver->city }}">
+
         <input type="submit" value="Atnaujinti">
 
     </form>

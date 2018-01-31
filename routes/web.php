@@ -82,7 +82,7 @@
 //    return view('fuel_station', compact('fuel_station'));
 //});
 
-
+app()->setLocale('en');
 
 Route::get('radars', 'RadarsController@index')->name('radars.index');
 Route::get('radars/create', 'RadarsController@create')->name('radars.create');
@@ -137,3 +137,26 @@ Route::middleware('auth')->group(function(){
     Route::post('drivers/{drivers}', 'DriversController@restore')->name('drivers.restore');
 
 });
+
+Route::middleware('multiLang')->group(function(){
+    Route::get('radars', 'RadarsController@index')->name('radars.index');
+    Route::get('radars/create', 'RadarsController@create')->name('radars.create');
+    Route::post('radars', 'RadarsController@store')->name('radars.store');
+    Route::get('radars/{radars}', 'RadarsController@show')->name('radars.show');
+    Route::get('radars/{radars}/edit', 'RadarsController@edit')->name('radars.edit');
+    Route::put('radars/{radars}', 'RadarsController@update')->name('radars.update');
+    Route::delete('radars/{radars}/delete', 'RadarsController@destroy')->name('radars.destroy');
+    Route::post('radars/{radars}/restore', 'RadarsController@restore')->name('radars.restore');
+
+    Route::get('drivers', 'DriversController@index')->name('drivers.index');
+    Route::get('drivers/create', 'DriversController@create')->name('drivers.create');
+    Route::post('drivers', 'DriversController@store')->name('drivers.store');
+    Route::get('drivers/{drivers}', 'DriversController@show')->name('drivers.show');
+    Route::get('drivers/{drivers}/edit', 'DriversController@edit')->name('drivers.edit');
+    Route::put('drivers/{drivers}', 'DriversController@update')->name('drivers.update');
+    Route::delete('drivers/{drivers}', 'DriversController@destroy')->name('drivers.destroy');
+    Route::post('drivers/{drivers}', 'DriversController@restore')->name('drivers.restore');
+
+});
+
+Route::get('language/switch/{language}', 'LanguageController@switch')->name('language.switch');

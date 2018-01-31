@@ -36,11 +36,23 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        &nbsp; <li><a href="{{ route('radars.index') }}">Radarai</a></li>
+                        <li><a href="{{ route('drivers.index') }}">Vairuotojai</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <a href="{{ route('language.switch', ['language' => 'lt']) }}">
+                                Lietuvių
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('language.switch', ['language' => 'en']) }}">
+                                Anglų
+                            </a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
